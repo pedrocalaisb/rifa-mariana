@@ -1,229 +1,71 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rifa Solidária</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rifa Solidária</title>
 
-<style>
-body {
-  margin: 0;
-  font-family: Arial;
-  background: #f7f3f5;
-  text-align: center;
-}
-
-.container {
-  max-width: 900px;
-  margin: auto;
-  padding: 20px;
-}
-
-.titulo {
-  color: #cc4f87;
-  font-size: 60px;
-  margin: 0;
-}
-
-.subtitulo {
-  color: #e28cb2;
-  font-size: 40px;
-  margin: 0;
-}
-
-.sorteio {
-  margin: 15px;
-  padding: 10px 20px;
-  border: 2px solid #e4a0bc;
-  border-radius: 30px;
-  display: inline-block;
-  color: #c96a96;
-}
-
-.foto {
-  width: 200px;
-  border-radius: 20px;
-  margin: 15px 0;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(10, 1fr);
-  gap: 3px;
-  margin-top: 20px;
-}
-
-.num {
-  background: #cc5a8c;
-  color: white;
-  aspect-ratio: 1/1;
-  font-weight: bold;
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.num:hover {
-  transform: scale(1.05);
-}
-
-.num.selecionado {
-  background: #8f2e59;
-  transform: scale(1.1);
-}
-
-.num.vendido {
-  background: gray;
-  cursor: not-allowed;
-}
-
-.premio {
-  margin-top: 20px;
-  background: #cc5a8c;
-  color: white;
-  padding: 20px;
-  border-radius: 20px;
-}
-
-.acoes {
-  background: white;
-  margin-top: 15px;
-  padding: 15px;
-  border-radius: 20px;
-}
-
-.botao {
-  margin-top: 10px;
-  padding: 12px;
-  border: none;
-  border-radius: 10px;
-  width: 90%;
-}
-
-.pix {
-  background: #cc5a8c;
-  color: white;
-}
-
-.wpp {
-  background: #25D366;
-  color: white;
-}
-
-#numeroEscolhido,
-#valorTotal {
-  font-weight: bold;
-}
-</style>
-</head>
-
-<body>
-
-<div class="container">
-
-<h1 class="titulo">RIFA</h1>
-<h2 class="subtitulo">SOLIDÁRIA</h2>
-
-<div class="sorteio">Sorteio dia 30/04</div>
-
-<img src="https://i.postimg.cc/43QvLLmb/b741eba1-94ca-428e-b642-eda879d57abc.jpg" class="foto" alt="Foto da rifa">
-
-<div id="grid" class="grid"></div>
-
-<div class="premio">
-  <h2>PRÊMIO: R$200,00</h2>
-  <p>R$5 por número</p>
-</div>
-
-<div class="acoes">
-  <p id="numeroEscolhido">Nenhum número selecionado</p>
-  <p id="valorTotal">Total: R$0,00</p>
-  <p>Pix: <b>27998162536</b></p>
-
-  <button class="botao pix" onclick="copiarPix()">Copiar Pix</button>
-
-  <a id="botaoWhatsapp" target="_blank">
-    <button class="botao wpp">Enviar comprovante</button>
-  </a>
-</div>
-
-</div>
-
-<script>
-const grid = document.getElementById("grid");
-const numeroEscolhido = document.getElementById("numeroEscolhido");
-const valorTotal = document.getElementById("valorTotal");
-const botaoWhatsapp = document.getElementById("botaoWhatsapp");
-
-const numeroWhatsapp = "5527998162536";
-const chavePix = "27998162536";
-const valorPorNumero = 5;
-
-// edite aqui os números vendidos
-const vendidos = [3, 7, 12];
-
-let selecionados = [];
-
-for (let i = 1; i <= 100; i++) {
-  const botao = document.createElement("button");
-  botao.className = "num";
-  botao.innerText = i;
-
-  if (vendidos.includes(i)) {
-    botao.classList.add("vendido");
-  }
-
-  botao.onclick = () => {
-    if (vendidos.includes(i)) return;
-
-    if (selecionados.includes(i)) {
-      selecionados = selecionados.filter(n => n !== i);
-      botao.classList.remove("selecionado");
-    } else {
-      selecionados.push(i);
-      selecionados.sort((a, b) => a - b);
-      botao.classList.add("selecionado");
+  <style>
+    * {
+      box-sizing: border-box;
     }
 
-    atualizarResumo();
-  };
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(180deg, #fff7fb 0%, #fbeaf2 100%);
+      text-align: center;
+      color: #4b3b43;
+    }
 
-  grid.appendChild(botao);
-}
+    .container {
+      max-width: 920px;
+      margin: auto;
+      padding: 24px 16px 40px;
+    }
 
-function atualizarResumo() {
-  if (selecionados.length === 0) {
-    numeroEscolhido.innerText = "Nenhum número selecionado";
-    valorTotal.innerText = "Total: R$0,00";
-    botaoWhatsapp.href = "#";
-    return;
-  }
+    .topo {
+      margin-bottom: 18px;
+    }
 
-  const total = selecionados.length * valorPorNumero;
+    .titulo {
+      color: #c94b86;
+      font-size: 58px;
+      margin: 0;
+      font-weight: 800;
+      letter-spacing: 1px;
+      line-height: 0.95;
+      text-shadow: 0 2px 8px rgba(201, 75, 134, 0.10);
+    }
 
-  numeroEscolhido.innerText =
-    "Números escolhidos: " + selecionados.join(", ");
+    .subtitulo {
+      color: #e28eb3;
+      font-size: 36px;
+      margin: 0;
+      font-weight: 700;
+      letter-spacing: 2px;
+    }
 
-  valorTotal.innerText =
-    "Total: R$" + total.toFixed(2).replace(".", ",");
+    .sorteio {
+      margin: 18px auto 0;
+      padding: 10px 20px;
+      border: 2px solid #edb2cc;
+      border-radius: 999px;
+      display: inline-block;
+      color: #c96a97;
+      background: #fff;
+      font-weight: 700;
+      box-shadow: 0 6px 16px rgba(201, 75, 134, 0.08);
+    }
 
-  const mensagem =
-    "Oi! Escolhi os números " +
-    selecionados.join(", ") +
-    " da rifa 💕 Total: R$" +
-    total.toFixed(2).replace(".", ",") +
-    ".";
+    .foto {
+      width: 210px;
+      height: 210px;
+      object-fit: cover;
+      border-radius: 26px;
+      margin: 22px 0 18px;
+      border: 5px solid #fff;
+      box-shadow: 0 12px 30px rgba(201, 75, 134, 0.18);
+    }
 
-  botaoWhatsapp.href =
-    "https://wa.me/" + numeroWhatsapp +
-    "?text=" + encodeURIComponent(mensagem);
-}
-
-function copiarPix() {
-  navigator.clipboard.writeText(chavePix);
-  alert("Pix copiado!");
-}
-</script>
-
-</body>
-</html>
+    .descricao
